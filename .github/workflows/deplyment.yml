@@ -8,28 +8,33 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
       - name: Get code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Install NodeJS
         uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
 
-      - name: Install dependecies
+      - name: Install dependencies
         run: npm ci
 
-      - name: Run test
-        run: vitest run
+      - name: Run tests
+        run: npx vitest run
 
       - name: Run lint
-        run: eslint --ext .jsx --fix src
+        run: npx eslint src --ext .jsx
 
       - name: Run build
-        run: vite build
+        run: npx vite build
 
   issue-info:
-    runs-on: ubuntu-latest
     if: github.event_name == 'issues'
+    runs-on: ubuntu-latest
+
     steps:
       - name: Echo issue details
         run: |
