@@ -1,41 +1,41 @@
 name: deployment
 
 on:
-    push:
-    issues:
-        types: [opened]
+  push:
+  issues:
+    types: [opened]
 
 jobs:
-    test:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Get code
-              uses: actions/checkout@6
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@4
 
-            - name: Install NodeJS
-              uses: actions/setup-node@3
+      - name: Install NodeJS
+        uses: actions/setup-node@4
 
-            - name: Install dependecies
-              run: npm ci
+      - name: Install dependecies
+        run: npm ci
 
-            - name: Run test
-              run: vitest run
+      - name: Run test
+        run: vitest run
 
-            - name: Run lint
-              run: eslint --ext .jsx --fix src
+      - name: Run lint
+        run: eslint --ext .jsx --fix src
 
-            - name: Run build
-              run: vite build
+      - name: Run build
+        run: vite build
 
-    issue-info:
-        runs-on: ubuntu-latest
-        if: github.event_name == 'issues'
-        steps:
-            - name: Echo issue details
-              run: |
-                  echo "🆔 Issue Number: ${{ github.event.issue.number }}"
-                  echo "📌 Title: ${{ github.event.issue.title }}"
-                  echo "👤 Author: ${{ github.event.issue.user.login }}"
-                  echo "📝 Body:"
-                  echo "${{ github.event.issue.body }}"
-                  echo "🔗 URL: ${{ github.event.issue.html_url }}"
+  issue-info:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues'
+    steps:
+      - name: Echo issue details
+        run: |
+          echo "🆔 Issue Number: ${{ github.event.issue.number }}"
+          echo "📌 Title: ${{ github.event.issue.title }}"
+          echo "👤 Author: ${{ github.event.issue.user.login }}"
+          echo "📝 Body:"
+          echo "${{ github.event.issue.body }}"
+          echo "🔗 URL: ${{ github.event.issue.html_url }}"
